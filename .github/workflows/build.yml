@@ -1,0 +1,36 @@
+name: Build Swara Mandala Yuda
+
+on:
+  push:
+    branches: [ "main", "master" ]
+  workflow_dispatch:
+
+jobs:
+  build:
+    strategy:
+      matrix:
+        os: [windows-latest, macos-latest]
+    runs-on: ${{ matrix.os }}
+
+    steps:
+    - uses: actions/checkout@v4
+    - uses: actions/setup-python@v5
+      with:
+        python-version: '3.11'
+    - run: pip install python-osc pyinstaller
+    - name: Build Windows
+      if: matrix.os == 'windows-latest'
+      run: pyinstaller --onefile --windowed --name "Swara_Mandala_Yuda" tosca_gui_pro.py
+    - name: Build macOS
+      if: matrix.os == 'macos-latest'
+      run: |
+        pyinstaller --onefile --windowed --name "Swara_Mandala_Yuda" tosca_gui_pro.py
+        mkdir -p dist/dmg
+        cp -r dist/Swara_Mandala_Yuda.app dist/dmg/
+        hdiutil create -volname "Swara Mandala Yuda" -srcfolder dist/dmg -ov -format UDZO Swara_Mandala_Yuda.dmg
+    - uses: actions/upload-artifact@v4
+      with:
+        name: Swara-Mandala-${{ matrix.os }}
+        path: |
+          dist/*.exe
+          *.dmg
