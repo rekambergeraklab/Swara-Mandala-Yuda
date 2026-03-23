@@ -26,4 +26,4 @@ Aplikasi ini tersedia untuk tiga sistem operasi utama (cek bagian **Releases/Art
 3. **Linux:** Jalankan file `AppImage` atau `Swara_Mandala_Yuda` binary.
 
 ---
-*Developed by rekambergeraklab*
+*Developed by rekambergeraklab
